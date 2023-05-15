@@ -20,6 +20,4 @@ pub enum Error {
     VideoSubsystemInitialization(String),
     #[error("Failed to render window: {0}")]
     WindowRenderError(String),
-    #[error("User Pressed the ESC or Quit buttons")]
-    ProgramQuit,
 }

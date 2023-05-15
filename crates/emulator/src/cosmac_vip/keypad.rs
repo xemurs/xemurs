@@ -1,5 +1,8 @@
 use std::ops::{Index, IndexMut};
 
+use system::emulator::Keycode;
+
+#[derive(Clone, Copy, Debug, PartialEq, Eq)]
 pub enum Key {
     Key0,
     Key1,
@@ -17,6 +20,31 @@ pub enum Key {
     KeyD,
     KeyE,
     KeyF,
+}
+
+impl Key {
+    #[inline]
+    pub fn from_keycode(keycode: Keycode) -> Option<Key> {
+        match keycode {
+            Keycode::Num0 => Some(Key::Key0),
+            Keycode::Num1 => Some(Key::Key1),
+            Keycode::Num2 => Some(Key::Key2),
+            Keycode::Num3 => Some(Key::Key3),
+            Keycode::Num4 => Some(Key::Key4),
+            Keycode::Num5 => Some(Key::Key5),
+            Keycode::Num6 => Some(Key::Key6),
+            Keycode::Num7 => Some(Key::Key7),
+            Keycode::Num8 => Some(Key::Key8),
+            Keycode::Num9 => Some(Key::Key9),
+            Keycode::A => Some(Key::KeyA),
+            Keycode::B => Some(Key::KeyB),
+            Keycode::C => Some(Key::KeyC),
+            Keycode::D => Some(Key::KeyD),
+            Keycode::E => Some(Key::KeyE),
+            Keycode::F => Some(Key::KeyF),
+            _ => None,
+        }
+    }
 }
 
 #[derive(Clone, Copy, Debug, PartialEq, Eq)]

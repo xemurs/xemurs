@@ -1,12 +1,15 @@
 mod error;
 mod window;
 
+pub mod emulator;
+
 pub use error::{Error, Result};
 
 use sdl2::event::Event;
 use sdl2::keyboard::Keycode;
 use sdl2::EventPump;
 
+use self::emulator::Emulator;
 use self::window::Window;
 
 pub struct SystemConfig {
@@ -25,42 +28,57 @@ impl Default for SystemConfig {
     }
 }
 
+#[derive(Debug, PartialEq, Eq)]
+pub enum State {
+    Running,
+    Stopped,
+}
+
 pub struct System {
+    emulator: Box<dyn Emulator>,
     events: EventPump,
+    state: State,
     window: Window,
 }
 
 impl System {
-    pub fn new(config: SystemConfig) -> Result<Self> {
+    pub fn new(config: SystemConfig, emulator: Box<dyn Emulator>) -> Result<Self> {
         let sdl = sdl2::init().map_err(|err| Error::SdlInit(err))?;
         let event_pump = sdl.event_pump().map_err(|err| Error::EventPumpInit(err))?;
         let window = Window::new(&sdl, config)?;
 
         Ok(Self {
+            emulator,
             events: event_pump,
+            state: State::Stopped,
             window,
         })
     }
 
     pub fn start(&mut self) -> Result<()> {
-        while let Ok(()) = self.poll() {
-            self.window.render()?;
-        }
+        self.state = State::Running;
 
-        Ok(())
-    }
-
-    fn poll(&mut self) -> Result<()> {
-        for event in self.events.poll_iter() {
-            match event {
-                Event::Quit { .. }
-                | Event::KeyDown {
-                    keycode: Some(Keycode::Escape),
-                    ..
-                } => {
-                    return Err(Error::ProgramQuit);
+        while self.state == State::Running {
+            for event in self.events.poll_iter() {
+                match event {
+                    Event::Quit { .. }
+                    | Event::KeyDown {
+                        keycode: Some(Keycode::Escape),
+                        ..
+                    } => {
+                        self.state = State::Stopped;
+                        println!("Detected ESC/Quit, Stopping");
+                    }
+                    Event::KeyDown {
+                        keycode: Some(keycode),
+                        ..
+                    } => {
+                        self.emulator.keyboard_press(keycode)?;
+                    }
+                    _ => {}
                 }
-                _ => {}
+
+                self.window.render()?;
             }
         }
 
