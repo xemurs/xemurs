@@ -1,0 +1,13 @@
+[package]
+name = "xemurs"
+version = "0.0.1"
+edition = "2021"
+authors = ["Esteban Borai <estebanborai@gmail.com>"]
+description = "Extended Emulators CLI"
+repository = "https://github.com/xemurs/cli"
+keywords = ["emulator"]
+license = "MIT"
+readme = "README.md"
+
+[dependencies]
+clap = { version = "4.2.7", features = ["derive"] }
