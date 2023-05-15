@@ -1,7 +1,6 @@
 use clap::{Parser, Subcommand};
 use color_eyre::eyre::Result;
 
-use system::emulator::Emulator;
 use system::{System, SystemConfig};
 
 const ABOUT: &str = r#"
