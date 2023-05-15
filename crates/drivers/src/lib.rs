@@ -3,7 +3,7 @@ mod window;
 
 pub use error::{Error, Result};
 
-use self::window::{Window, WindowConfig};
+use self::window::Window;
 
 pub struct SystemConfig {
     title: String,
