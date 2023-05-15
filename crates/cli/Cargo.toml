@@ -11,3 +11,7 @@ readme = "README.md"
 
 [dependencies]
 clap = { version = "4.2.7", features = ["derive"] }
+color-eyre = "0.6.2"
+
+# Local Dependencies
+system = { path = "../system" }

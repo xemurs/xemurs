@@ -4,6 +4,10 @@ pub type Result<T> = std::result::Result<T, Error>;
 pub enum Error {
     #[error("SDL2 error ocurred: {0}")]
     Sdl(#[from] sdl2::Error),
+    #[error("An error ocurred initializing SDL2: {0}")]
+    SdlInit(String),
+    #[error("Failed to retrieve SDL2 Event Pump: {0}")]
+    EventPumpInit(String),
     #[error("Window Build Error: {0}")]
     WindowBuildError(#[from] sdl2::video::WindowBuildError),
     /// An error from SDL2 and C bindings, built from `IntegerOrSdlError`.
@@ -14,4 +18,8 @@ pub enum Error {
     IntegerOverflowError(#[from] sdl2::IntegerOrSdlError),
     #[error("Failed to initialize Video Subsystem: {0}")]
     VideoSubsystemInitialization(String),
+    #[error("Failed to render window: {0}")]
+    WindowRenderError(String),
+    #[error("User Pressed the ESC or Quit buttons")]
+    ProgramQuit,
 }

@@ -1,7 +1,7 @@
 [workspace]
 members = [
   "crates/cli",
-  "crates/drivers",
+  "crates/system",
 ]
 
 default-members = ["crates/cli"]

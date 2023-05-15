@@ -1,10 +1,10 @@
 [package]
-name = "drivers"
+name = "system"
 version = "0.1.0"
 edition = "2021"
 authors = ["Esteban Borai <estebanborai@gmail.com>"]
 description = "Xemurs Drivers"
-repository = "https://github.com/xemurs/drivers"
+repository = "https://github.com/xemurs/system"
 keywords = ["emulator"]
 license = "MIT"
 readme = "README.md"
