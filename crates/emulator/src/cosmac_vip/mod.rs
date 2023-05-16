@@ -7,6 +7,8 @@ pub(crate) mod registers;
 pub(crate) mod rom;
 pub(crate) mod stack;
 
+pub use rom::Rom;
+
 use system::emulator::{Emulator, Keycode};
 use system::{Result, System};
 
@@ -19,8 +21,12 @@ pub struct CosmacVip {
 }
 
 impl CosmacVip {
-    pub fn new() -> Self {
-        Self { cpu: Cpu::new() }
+    pub fn new(rom: Rom) -> Self {
+        let mut cpu = Cpu::new();
+
+        cpu.load(rom);
+
+        Self { cpu }
     }
 }
 

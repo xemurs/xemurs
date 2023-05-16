@@ -1,3 +1,5 @@
+use std::path::PathBuf;
+
 use clap::{Parser, Subcommand};
 use color_eyre::eyre::Result;
 
@@ -24,7 +26,7 @@ enum Cli {
 
 #[derive(Debug, Subcommand)]
 enum EmulatorOpt {
-    CosmacVip,
+    CosmacVip { rom: PathBuf },
 }
 
 fn main() -> Result<()> {
@@ -32,10 +34,11 @@ fn main() -> Result<()> {
 
     match Cli::parse() {
         Cli::Start(emulator) => match emulator {
-            EmulatorOpt::CosmacVip => {
-                use emulator::cosmac_vip::CosmacVip;
+            EmulatorOpt::CosmacVip { rom: path } => {
+                use emulator::cosmac_vip::{CosmacVip, Rom};
 
-                let mut cosmac_vip = CosmacVip::new();
+                let rom = Rom::from_path(&path);
+                let mut cosmac_vip = CosmacVip::new(rom);
                 let mut system = System::new(SystemConfig::default())?;
 
                 cosmac_vip.start(&mut system)?;
