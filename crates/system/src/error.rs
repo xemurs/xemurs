@@ -20,4 +20,6 @@ pub enum Error {
     VideoSubsystemInitialization(String),
     #[error("Failed to render window: {0}")]
     WindowRenderError(String),
+    #[error("Emulator memory is out of bounds. Max: {0} Reached: {1}")]
+    EmulatorMemoryOutOfBounds(usize, usize),
 }

@@ -1,7 +1,7 @@
 pub use sdl2::keyboard::Keycode;
 
-use crate::Result;
+use crate::{Result, System};
 
 pub trait Emulator {
-    fn keyboard_press(&mut self, keycode: Keycode) -> Result<()>;
+    fn start(&mut self, system: &mut System) -> Result<()>;
 }

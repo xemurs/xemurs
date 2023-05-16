@@ -1,6 +1,7 @@
 use clap::{Parser, Subcommand};
 use color_eyre::eyre::Result;
 
+use system::emulator::Emulator;
 use system::{System, SystemConfig};
 
 const ABOUT: &str = r#"
@@ -34,10 +35,10 @@ fn main() -> Result<()> {
             EmulatorOpt::CosmacVip => {
                 use emulator::cosmac_vip::CosmacVip;
 
-                let cosmac_vip = CosmacVip::new();
-                let mut system = System::new(SystemConfig::default(), Box::new(cosmac_vip))?;
+                let mut cosmac_vip = CosmacVip::new();
+                let mut system = System::new(SystemConfig::default())?;
 
-                system.start()?;
+                cosmac_vip.start(&mut system)?;
             }
         },
     }
