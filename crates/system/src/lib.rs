@@ -62,7 +62,7 @@ impl System {
         matches!(self.state, State::Running)
     }
 
-    pub fn poll_event(&mut self) -> Option<Event> {
+    pub fn next_keyboard_state(&mut self) -> Option<KeyboardState> {
         if let Some(event) = self.events.poll_event() {
             match event {
                 Event::Quit { .. }
@@ -72,14 +72,14 @@ impl System {
                 } => {
                     self.state = State::Stopped;
                     println!("Detected ESC/Quit, Stopping");
+                    return None;
                 }
-                _ => {
-                    return Some(event);
-                }
+                _ => {}
             }
         }
 
-        None
+        let keyboard_state = self.events.keyboard_state();
+        Some(keyboard_state)
     }
 
     /// Retrieves the keyboard state
