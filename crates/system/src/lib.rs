@@ -6,6 +6,7 @@ pub mod emulator;
 pub use error::{Error, Result};
 pub use sdl2::event::Event;
 pub use sdl2::keyboard::KeyboardState;
+pub use window::Bitmap;
 
 use sdl2::keyboard::Keycode;
 use sdl2::EventPump;
@@ -14,16 +15,14 @@ use self::window::Window;
 
 pub struct SystemConfig {
     title: String,
-    screen_height: u32,
-    screen_width: u32,
+    screen_scale: u32,
 }
 
 impl Default for SystemConfig {
     fn default() -> Self {
         Self {
             title: String::from("Xemurs"),
-            screen_height: 720,
-            screen_width: 1280,
+            screen_scale: 12,
         }
     }
 }
@@ -87,7 +86,11 @@ impl System {
         self.events.keyboard_state()
     }
 
-    pub fn render(&mut self) -> Result<()> {
-        self.window.render()
+    pub fn render(&mut self, bitmap: &Bitmap) -> Result<()> {
+        self.window.render(&bitmap)
+    }
+
+    pub fn screen_area(&self) -> u32 {
+        self.window.screen_area
     }
 }

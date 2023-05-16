@@ -10,7 +10,7 @@ pub(crate) mod stack;
 pub use rom::Rom;
 
 use system::emulator::{Emulator, Keycode};
-use system::{Result, System};
+use system::{Result, System, Bitmap};
 
 use self::cpu::Cpu;
 use self::keypad::Keypad;
@@ -70,7 +70,9 @@ impl Emulator for CosmacVip {
             let cycle = self.cpu.cycle(keypad);
 
             if cycle.display_update {
-                system.render()?;
+                let bitmap = Bitmap::new(&cycle.display_buffer.0);
+
+                system.render(&bitmap)?;
             }
 
             std::thread::sleep(std::time::Duration::from_millis(2));

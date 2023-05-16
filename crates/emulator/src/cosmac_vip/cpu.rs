@@ -1,14 +1,12 @@
 use rand::random;
 
-use super::display::{DisplayBuffer, SCREEN_AREA, SCREEN_HEIGHT, SCREEN_WIDTH};
+use super::display::{DisplayBuffer, SCREEN_HEIGHT, SCREEN_WIDTH};
 use super::keypad::Keypad;
 use super::memory::{Memory, USER_SPACE_STR};
 use super::opcode::{Instruction, Opcode};
 use super::registers::Registers;
 use super::rom::Rom;
 use super::stack::Stack;
-
-pub const CLOCK_RATE: f32 = 600.0;
 
 pub struct CycleOutput {
     pub beep: bool,
@@ -108,6 +106,8 @@ impl Cpu {
             }
 
             self.execute(instr);
+            println!("{} {}", opcode, instr);
+            println!("{} PC: {} SP: {} DT: {} ST: {}", self.registers, self.pc, self.sp, self.dt, self.st);
         }
 
         CycleOutput {
@@ -117,6 +117,7 @@ impl Cpu {
         }
     }
 
+    #[allow(dead_code)]
     pub fn load_and_exec(&mut self, opcode: u16) {
         self.load(vec![(opcode >> 8) as u8, (opcode & 0xff) as u8].into());
         self.cycle(Keypad::new());
